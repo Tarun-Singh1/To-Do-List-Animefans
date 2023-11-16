@@ -1,0 +1,46 @@
+<!-- index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div>
+    <h1 id="dateDisplay"><%= currentDate %></h1>
+    <h1>To-Do List</h1>
+    
+    <ul>
+      <% tasks.forEach((task, index) => { %>
+        <li class="<%= task.completed ? 'completed' : '' %>">
+          <input type="checkbox" id="<%= 'taskCheckbox_' + index %>" onclick="toggleTaskCompletion(<%= index %>)" <%= task.completed ? 'checked' : '' %>> <!-- Add checked attribute if the task is completed -->
+          <label for="<%= 'taskCheckbox_' + index %>"><%= task.text %></label>
+        </li>
+      <% }); %>
+    </ul>
+
+    <form action="/addTask" method="post">
+      <label for="task">Task:</label>
+      <input type="text" id="task" name="task" required>
+      <button type="submit">Add Task</button>
+    </form>
+  </div>
+
+  <script>
+    function toggleTaskCompletion(index) {
+      // Fetch the corresponding task
+      const task = tasks[index];
+  
+      // Toggle the completed status
+      task.completed = !task.completed;
+  
+      // Reload the page to reflect the changes
+      location.reload();
+    }
+  </script>
+</body>
+</html>
+
